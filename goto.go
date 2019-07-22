@@ -28,6 +28,8 @@ func main() {
 	check(err)
 	defer f.Close()
 
+	// Create a map of our .gotorc file
+	// { "shortcut": "/path/to/directory/" }
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		j, dir := split(scanner.Text(), ",")
@@ -43,8 +45,7 @@ func main() {
 	// current working directory of the shell.
 	// To fix this -- we need to integrate with the shell
 	if jump != "" {
-		dir, ok := jumpDirMap[jump]
-		if ok {
+		if dir, ok := jumpDirMap[jump]; ok {
 			fmt.Println(dir)
 			//cmd := exec.Command("cd", dir)
 			//err := cmd.Run()
