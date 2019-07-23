@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 // Bash is the exported bash script that will integrate with our shell
 const Bash = `# To make the binary work, add the following lines of code
 # to your ~/.bash_profile or ~/.bash_rc
@@ -14,10 +12,10 @@ const Bash = `# To make the binary work, add the following lines of code
 
 g() {
   local dir="$(goto $@)"
-  test -d "$dir" && "cd $dir" || echo "$dir"
+  test -d "$dir" && cd "$dir" || echo "$dir"
 }`
 
 // PrintShellIntegration prints out the shell integration string
-func PrintShellIntegration(b string) {
-	fmt.Println(b)
+func PrintShellIntegration(b string) string {
+	return b
 }

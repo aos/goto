@@ -57,20 +57,21 @@ func main() {
 	}
 
 	if cli.Add {
-		_, err := f.WriteString(fmt.Sprintf("%v,%v\n", base, cwd))
+		_, err := f.WriteString(fmt.Sprintf("%v,%v/\n", base, cwd))
 		fmt.Println("Added directory.")
 		Check(err)
 		return
 	}
 
 	if cli.Name != "" && cli.Name != base {
-		_, err := f.WriteString(fmt.Sprintf("%v,%v\n", cli.Name, cwd))
+		_, err := f.WriteString(fmt.Sprintf("%v,%v/\n", cli.Name, cwd))
 		Check(err)
 		return
 	}
 
 	if cli.Init {
-		PrintShellIntegration(Bash)
+		text := PrintShellIntegration(Bash)
+		fmt.Println(text)
 		return
 	}
 
