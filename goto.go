@@ -8,17 +8,13 @@ import (
 	"path/filepath"
 )
 
-var jumpDirMap = make(map[string]string)
-
 func main() {
-	cwd, err := os.Getwd()
-	Check(err)
+	jumpDirMap := make(map[string]string)
 
 	home, err := os.UserHomeDir()
 	Check(err)
 
-	base := filepath.Base(cwd)
-
+	// Create the ~/.gotorc file if it doesn't exist
 	f, err := os.OpenFile(
 		filepath.Join(home, ".gotorc"),
 		os.O_APPEND|os.O_CREATE|os.O_RDWR,
@@ -27,7 +23,7 @@ func main() {
 	Check(err)
 	defer f.Close()
 
-	// Create a map of our .gotorc file
+	// Create a map from our .gotorc file
 	// { "shortcut": "/path/to/directory/" }
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
@@ -36,16 +32,21 @@ func main() {
 	}
 
 	// Our flags and arguments
-	cli := ParseCommandLine(base)
+	cli := ParseCommandLine()
 
 	if cli.Add {
+		cwd, err := os.Getwd()
+		Check(err)
+
+		base := filepath.Base(cwd)
 		shortcutName := ""
 		if cli.Arg != "" {
 			shortcutName = cli.Arg
 		} else {
 			shortcutName = base
 		}
-		_, err := f.WriteString(fmt.Sprintf("%v,%v/\n", shortcutName, cwd))
+
+		_, err = f.WriteString(fmt.Sprintf("%v,%v/\n", shortcutName, cwd))
 		fmt.Printf("Added shortcut: %s | %s\n", shortcutName, cwd)
 		Check(err)
 		return

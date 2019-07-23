@@ -36,8 +36,8 @@ func Split(s, sep string) (string, string) {
 }
 
 // ParseCommandLine initializes our command-line flags and args
-func ParseCommandLine(base string) CommandLineArgs {
-	addPtr := flag.Bool("a", false, "Bind current file path to name, (default: base name of current directory)")
+func ParseCommandLine() CommandLineArgs {
+	addPtr := flag.Bool("a", false, "Bind current directory to name (default: basename)")
 	listPtr := flag.Bool("l", false, "Lists the currently installed shortcuts")
 	initPtr := flag.Bool("init", false, "Prints out the Bash integration code")
 	flag.Parse()
