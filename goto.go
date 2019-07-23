@@ -35,16 +35,19 @@ func main() {
 		jumpDirMap[j] = dir
 	}
 
-	// Our flags
+	// Our flags and arguments
 	cli := ParseCommandLine(base)
 
-	// To fix this -- we need to integrate with the shell
-	if cli.Arg != "" {
-		if dir, ok := jumpDirMap[cli.Arg]; ok {
-			fmt.Printf("%s", dir)
-			return
+	if cli.Add {
+		shortcutName := ""
+		if cli.Arg != "" {
+			shortcutName = cli.Arg
+		} else {
+			shortcutName = base
 		}
-		fmt.Println("Shortcut not found.")
+		_, err := f.WriteString(fmt.Sprintf("%v,%v/\n", shortcutName, cwd))
+		fmt.Printf("Added shortcut: %s | %s\n", shortcutName, cwd)
+		Check(err)
 		return
 	}
 
@@ -56,22 +59,18 @@ func main() {
 		return
 	}
 
-	if cli.Add {
-		_, err := f.WriteString(fmt.Sprintf("%v,%v/\n", base, cwd))
-		fmt.Println("Added directory.")
-		Check(err)
-		return
-	}
-
-	if cli.Name != "" && cli.Name != base {
-		_, err := f.WriteString(fmt.Sprintf("%v,%v/\n", cli.Name, cwd))
-		Check(err)
-		return
-	}
-
 	if cli.Init {
 		text := PrintShellIntegration(Bash)
 		fmt.Println(text)
+		return
+	}
+
+	if cli.Arg != "" {
+		if dir, ok := jumpDirMap[cli.Arg]; ok {
+			fmt.Printf("%s", dir)
+			return
+		}
+		fmt.Println("Shortcut not found.")
 		return
 	}
 

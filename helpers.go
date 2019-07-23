@@ -7,7 +7,6 @@ import (
 
 // CommandLineArgs holds all the command-line flag and args information
 type CommandLineArgs struct {
-	Name string
 	Add  bool
 	List bool
 	Init bool
@@ -38,11 +37,10 @@ func Split(s, sep string) (string, string) {
 
 // ParseCommandLine initializes our command-line flags and args
 func ParseCommandLine(base string) CommandLineArgs {
-	namePtr := flag.String("n", "", "Bind current file path to alias")
-	addPtr := flag.Bool("a", false, "Bind current file path to base name")
+	addPtr := flag.Bool("a", false, "Bind current file path to name, (default: base name of current directory)")
 	listPtr := flag.Bool("l", false, "Lists the currently installed shortcuts")
 	initPtr := flag.Bool("init", false, "Prints out the Bash integration code")
 	flag.Parse()
 	arg := flag.Arg(0)
-	return CommandLineArgs{*namePtr, *addPtr, *listPtr, *initPtr, arg}
+	return CommandLineArgs{*addPtr, *listPtr, *initPtr, arg}
 }
