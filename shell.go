@@ -4,10 +4,9 @@ package main
 const Bash = `# To make the binary work, add the following lines of code
 # to your ~/.bash_profile or ~/.bash_rc
 #
-# eval $(goto --init)
+# eval "$(goto --init)"
 #
-# It will autogenerate this text and below to make the magic happen.
-# "test -d"
+# It will autogenerate this text to make the magic happen.
 
 
 g() {
