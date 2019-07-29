@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"os"
 	"strings"
 )
 
@@ -13,10 +15,11 @@ type CommandLineArgs struct {
 	Arg  string
 }
 
-// Check checks for errors and just panics
+// Check checks for errors, prints the error out and exits
 func Check(e error) {
 	if e != nil {
-		panic(e)
+		fmt.Println(e)
+		os.Exit(1)
 	}
 }
 
