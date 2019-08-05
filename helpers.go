@@ -2,8 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	"os"
+	"log"
 	"strings"
 )
 
@@ -18,8 +17,7 @@ type CommandLineArgs struct {
 // Check checks for errors, prints the error out and exits
 func Check(e error) {
 	if e != nil {
-		fmt.Println(e)
-		os.Exit(1)
+		log.Fatalln(e)
 	}
 }
 
