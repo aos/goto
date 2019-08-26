@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"text/tabwriter"
 )
 
 func main() {
@@ -54,15 +55,17 @@ func main() {
 
 	if cli.List {
 		fmt.Println("Currently installed shortcuts:")
+		w := new(tabwriter.Writer)
+		w.Init(os.Stdout, 0, 0, 1, ' ', tabwriter.TabIndent)
 		for k, v := range jumpDirMap {
-			fmt.Printf("%v - \t%v\n", k, v)
+			fmt.Fprintf(w, "%s\t%s\n", k, v)
 		}
+		w.Flush()
 		return
 	}
 
 	if cli.Init {
-		text := PrintShellIntegration(Bash)
-		fmt.Println(text)
+		PrintShellIntegration(Bash)
 		return
 	}
 
