@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
 	"strings"
 )
 
@@ -12,13 +11,6 @@ type CommandLineArgs struct {
 	List bool
 	Init bool
 	Arg  string
-}
-
-// Check checks for errors, prints the error out and exits
-func Check(e error) {
-	if e != nil {
-		log.Fatalln(e)
-	}
 }
 
 // Split takes a string with a single separator,

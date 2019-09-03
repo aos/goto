@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"text/tabwriter"
@@ -13,7 +14,9 @@ func main() {
 	jumpDirMap := make(map[string]string)
 
 	home, err := os.UserHomeDir()
-	Check(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Create the ~/.gotorc file if it doesn't exist
 	f, err := os.OpenFile(
@@ -21,7 +24,9 @@ func main() {
 		os.O_APPEND|os.O_CREATE|os.O_RDWR,
 		0644,
 	)
-	Check(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer f.Close()
 
 	// Create a map from our .gotorc file
@@ -37,7 +42,9 @@ func main() {
 
 	if cli.Add {
 		cwd, err := os.Getwd()
-		Check(err)
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		base := filepath.Base(cwd)
 		shortcutName := ""
@@ -49,7 +56,10 @@ func main() {
 
 		_, err = f.WriteString(fmt.Sprintf("%v,%v/\n", shortcutName, cwd))
 		fmt.Printf("Added shortcut: %s | %s\n", shortcutName, cwd)
-		Check(err)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		return
 	}
 
